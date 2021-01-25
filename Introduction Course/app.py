@@ -1,11 +1,11 @@
-from flask import Flask,render_template,url_for
+from flask import Flask,render_template,url_for,request,redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 from werkzeug.exceptions import default_exceptions
 
 app=Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URL']='sqlite:///test.db'
+app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///test.db'
 db=SQLAlchemy(app)
 
 
@@ -14,19 +14,56 @@ class Todo(db.Model):
     content=db.Column(db.String(200),nullable=False)
     complete=db.Column(db.Integer,default=0)
     date_created=db.Column(db.DateTime,default=datetime.utcnow())
-
     def __repr__(self):
         return '<Task %r>' % self.id
 
 
 
-
-
-
-
-@app.route('/')
+# @app.route('/')
+@app.route('/',methods=['POST','GET'])
 def index():
-    return render_template('index.html')
+    if (request.method =='POST'):
+        # return 'Hello'
+        task_content=request.form['content']
+        new_Task=Todo(content=task_content)
+        try:
+
+            db.session.add(new_Task)
+            db.session.commit()
+            return redirect('/')
+        except :
+            return 'There Wasan Issue adding your task'
+    else:
+        tasks=Todo.query.order_by(Todo.date_created).all()
+        # return 'hello world'
+        # print(tasks[0])
+        return render_template('index.html',tasks=tasks)
+
+
+@app.route('/delete/<int:id>')
+def delete(id):
+    task_to_delete=Todo.query.get_or_404(id)
+    try:
+        db.session.delete(task_to_delete)
+        db.session.commit()
+        return redirect('/')
+    except :
+        return 'There was a problem deleting that task'
+
+@app.route('/update/<int:id>',methods=['GET','POST'])
+def update(id):
+    task=Todo.query.get_or_404(id)
+    if (request.method=='POST'):
+        task.content=request.form['content']
+        try:
+            db.session.commit()
+            return redirect('/')
+        except :
+            return 'There was a issue on upadating'
+    else:
+        return render_template('update.html',task=task)
+
+    return ''
 
 if __name__ == "__main__":
     app.run(debug=True)
