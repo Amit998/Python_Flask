@@ -9,7 +9,7 @@
 <body>
     <ul class="nav">
         <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Active</a>
+            <a class="nav-link active" aria-current="page" href="/view">Active</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="/login">Login</a>
@@ -23,8 +23,10 @@
     </ul>
 
     <!-- <h1>Amit's Website</h1> -->
-    {% block content %}
-    {% endblock %}
+    <div class="container-fluid">
+        {% block content %}
+        {% endblock %}
+    </div>
 
 
     <!-- <h1>Hello World</h1>

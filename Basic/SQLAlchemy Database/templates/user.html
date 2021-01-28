@@ -18,7 +18,14 @@ User
 {% endwith %}
 
 
-<h4>Good To See You</h4>
-{{ user }}
+<form action="" method="POST">
+    <input type="email" name="email" placeholder="Enter Email" value="{{ email if email }}">
+    <input type="submit">
+
+
+</form>
+
+<!-- <h4>Good To See You</h4>
+{{ user }} -->
 
 {% endblock %}
