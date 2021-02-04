@@ -1,4 +1,7 @@
 from flask_wtf import FlaskForm
+
+from flask_wtf.file import FileField,FileAllowed
+
 from wtforms import StringField,PasswordField,SubmitField,BooleanField
 from wtforms.validators import DataRequired, Email, Length,EqualTo, ValidationError
 from app.models import User,Post
@@ -33,8 +36,7 @@ class LoginForm(FlaskForm):
 class UpdateAccountForm(FlaskForm):
     username=StringField('Username',validators=[DataRequired(),Length(min=4,max=200)])
     email=StringField('Email',validators=[DataRequired(),Email(),Length(min=4,max=60)])
-    password=PasswordField('Password',validators=[DataRequired(),Length(min=4,max=60)])
-    confirm_password=PasswordField( 'Confirm Password',validators=[DataRequired(),EqualTo('password'),Length(min=4,max=60)])
+    picture=FileField('Update Profile Picture',validators=[FileAllowed(['jpg','png'])])
     submit=SubmitField('Update')
 
     def validate_username(self,username):

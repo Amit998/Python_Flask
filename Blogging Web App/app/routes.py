@@ -1,3 +1,7 @@
+import os
+import secrets
+from PIL import Image
+
 from flask import render_template,url_for,flash,redirect,request
 from flask_login.utils import login_required
 from app.forms import RegistrationForm,LoginForm,UpdateAccountForm
@@ -79,14 +83,39 @@ def logout():
     logout_user()
     return redirect(url_for("home"))
 
+def save_picture(form_picture,current_profile_image):
+    print(form_picture,current_profile_image)
+    random_hex=secrets.token_hex(8)
+    f_name,f_ext=os.path.splitext(form_picture.filename)
+    picture_fn=random_hex+f_ext
+    picture_path=os.path.join(app.root_path,'static/image/Profile_Default/',picture_fn)
+
+    output_size=(125,125)
+    i=Image.open(form_picture)
+    i.thumbnail(output_size)
+    i.save(picture_path)
+    
+    if (os.path.exists(f"app/static/image/Profile_Default/{current_profile_image}")):
+        os.remove(f"app/static/image/Profile_Default/{current_profile_image}")
+        
+   
+        return picture_fn
+
+
 @app.route('/account',methods=['GET','POST'])
 @login_required
 def account():
     # print('in account')
     form=UpdateAccountForm()
-    # print(form)
+    # print(current_user.image_file,'this is the name')
     if(form.validate_on_submit()):
-        print('in account')
+        # print(form.picture.data)
+        if(form.picture.data ):
+            current_profile_image=current_user.image_file
+            picture_file=save_picture(form.picture.data,current_profile_image)
+            current_user.image_file=picture_file
+
+        # print('in account')
         current_user.username=form.username.data
         current_user.email=form.email.data
         print(current_user.username,form.username.data)
@@ -98,3 +127,5 @@ def account():
         form.email.data=current_user.email
     image_file=url_for('static',filename='image/Profile_Default/'+current_user.image_file)
     return render_template("account.html",title='Account',image_file=image_file,form=form)
+
+

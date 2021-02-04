@@ -1,8 +1,10 @@
-from flask_bcrypt import Bcrypt
+import os
 
-bcrypt=Bcrypt()
-hashed_pw=bcrypt.generate_password_hash('testing').decode('utf-8')
+# print(os.getcwd())
+print(os.path.exists("./app/static/image/Profile_Default/5b36c8d5bdd9e242.jpg"))
+os.remove("./app/static/image/Profile_Default/5b36c8d5bdd9e242.jpg")
+    # print('exist')
+# else:
+#   print("The file does not exist")
 
-# $2b$12$30Wjxrzoj.SilAPDc7XQ6e2kNnvnkI5aSMWb0Vd1zRrfSbREvM1vq
-
-print(bcrypt.check_password_hash(hashed_pw,'testing'))
+# suvo1910
