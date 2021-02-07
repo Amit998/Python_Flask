@@ -10,10 +10,7 @@ from  app.models import User,Post
 # db.session.commit()
 
 
-print(Post.query.all())
-
-print(User.query.all())
-
+# print(User.query.all())
 post_image='default_post.jpg'
 
 # # print(os.getcwd())
@@ -26,20 +23,20 @@ post_image='default_post.jpg'
 # suvo1910
 
 
-# f=open('posts.json',)
-# posts=json.load(f)
+f=open('posts.json',)
+posts=json.load(f)
 
 # print(data)
 
-# for post in posts:
-#     title=post['title']
-#     content=post['content']
-#     user_id=post['user_id']
+for post in posts:
+    title=post['title']
+    content=post['content']
+    user_id=post['user_id']
 
-#     post_add=Post(title=title,content=content,post_image=post_image,user_id=user_id)
-#     db.session.add(post_add)
-#     db.session.commit()
-#     print('added')
+    post_add=Post(title=title,content=content,post_image=post_image,user_id=user_id)
+    db.session.add(post_add)
+    db.session.commit()
+    print('added')
 
     # print(title,content,user_id)
 
