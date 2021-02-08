@@ -3,6 +3,15 @@ import json
 from app import db
 from  app.models import User,Post
 
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+
+
+s=Serializer('secret',5)
+token=s.dumps({'user_id':1}).decode('utf-8')
+
+
+print(s.loads(token))
+# print(token)
 
 # user_1=User(username='Test 2',email='test_1@gmail.com',password='12345678')
 
@@ -10,11 +19,11 @@ from  app.models import User,Post
 # db.session.commit()
 
 
-print(Post.query.all())
+# print(Post.query.all())
 
-print(User.query.all())
+# print(User.query.all())
 
-post_image='default_post.jpg'
+# post_image='default_post.jpg'
 
 # # print(os.getcwd())
 # print(os.path.exists("./app/static/image/Profile_Default/5b36c8d5bdd9e242.jpg"))
