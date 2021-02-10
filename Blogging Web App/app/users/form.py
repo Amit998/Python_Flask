@@ -1,11 +1,12 @@
+
 from flask_wtf import FlaskForm
-
 from flask_wtf.file import FileField,FileAllowed
-
-from wtforms import StringField,PasswordField,SubmitField,BooleanField,TextAreaField
+from wtforms import StringField,PasswordField,SubmitField,BooleanField
 from wtforms.validators import DataRequired, Email, Length,EqualTo, ValidationError
-from app.models import User,Post
+from app.models import User
 from flask_login import current_user
+
+# url_for
 
 
 class RegistrationForm(FlaskForm):
@@ -51,11 +52,6 @@ class UpdateAccountForm(FlaskForm):
             if (email):
                 raise ValidationError('That Email is already taken, please select diffrent')
 
-class PostForm(FlaskForm):
-    title=StringField('Title',validators=[DataRequired()])
-    content=TextAreaField('Content',validators=[DataRequired()])
-    # picture=FileField('Upload Photo',validators=[FileAllowed(['jpg','png'])])
-    submit=SubmitField('Post')
 
 class RequestResetForm(FlaskForm):
     email=StringField('Email',validators=[DataRequired(),Email(),Length(min=4,max=60)])
