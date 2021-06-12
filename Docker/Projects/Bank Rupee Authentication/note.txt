@@ -1,0 +1,3 @@
+# http://127.0.0.1:5000/predict?variance=2&skewness=3&curtosis=1&entropy=1
+# http://127.0.0.1:5000/predict_file?file=TestFile.csv
+# http://127.0.0.1:5000/apidocs/index.html
